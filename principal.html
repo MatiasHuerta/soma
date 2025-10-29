@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMA Estampados & Corte Láser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Íconos Font Awesome -->
+    <style>
+        /* Estilos igual que antes, con ajustes para íconos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFACD;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #FFB6C1;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #98FB98;
+        }
+        .description {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #ADD8E6;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .tab-button {
+            background-color: #FFF;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #FFB6C1;
+        }
+        .catalog {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product {
+            background-color: #FFF;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .product p {
+            font-size: 14px;
+            color: #666;
+        }
+        .product .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFB6C1;
+        }
+        button {
+            background-color: #98FB98;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ADD8E6;
+        }
+        #cart {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #FFF;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            transform: translateX(100%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        #cart.open {
+            transform: translateX(0);
+        }
+        #cart h2 {
+            color: #FFB6C1;
+        }
+        footer {
+            background-color: #ADD8E6;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tab-button {
+                width: 80%;
+                margin: 5px 0;
+            }
+            .catalog {
+                flex-direction: column;
+                align-items: center;
+            }
+            .product {
+                width: 90%;
+            }
+            #cart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-palette"></i> SOMA Estampados & Corte Láser</h1> <!-- Ícono de paleta para creatividad -->
+        <nav>
+            <a href="#home"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#catalog"><i class="fas fa-list"></i> Catálogo</a>
+            <a href="#" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i> Carrito</a>
+        </nav>
+    </header>
+
+    <section class="description">
+        <h2>¿Qué hacemos?</h2>
+        <p>En SOMA, nos especializamos en estampados personalizados y corte láser de alta precisión. Creamos productos únicos para emprendedores, artistas y empresas, utilizando tecnología avanzada para diseños creativos y duraderos.</p>
+    </section>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="showCategory('estampados')"><i class="fas fa-print"></i> Estampados</button> <!-- Ícono de impresora -->
+        <button class="tab-button" onclick="showCategory('corte-laser')"><i class="fas fa-cut"></i> Corte Láser</button> <!-- Ícono de corte -->
+    </div>
+
+    <section id="catalog" class="catalog">
+        <!-- Productos se cargan dinámicamente -->
+    </section>
+
+    <div id="cart">
+        <h2><i class="fas fa-shopping-cart"></i> Carrito de Compra</h2>
+        <div id="cart-items"></div>
+        <p>Subtotal: $<span id="subtotal">0</span></p>
+        <p>Envío: $<span id="shipping">0</span> (fijo $5 para envíos locales)</p>
+        <p>Total: $<span id="total">0</span></p>
+        <form id="checkout-form">
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Dirección" required>
+            <button type="submit"><i class="fas fa-credit-card"></i> Comprar</button>
+        </form>
+        <button onclick="toggleCart()"><i class="fas fa-times"></i> Cerrar</button>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-envelope"></i> Contacto: info@soma.com | <i class="fab fa-instagram"></i> Redes sociales</p>
+    </footer>
+
+    <script>
+        // Cargar productos desde localStorage (o array por defecto)
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 1, name: 'Estampado en Tela Personalizado', description: 'Diseño único en tela de algodón.', price: 20, image: 'https://via.placeholder.com/250x150', category: 'estampados' },
+            { id: 2, name: 'Estampado en Cerámica', description: 'Tazas con diseños creativos.', price: 15, image: 'https://via.placeholder.com/250x150', category: 'estampados' },
+            { id: 3, name: 'Corte Láser en Acrílico', description: 'Pieza decorativa transparente.', price: 25, image: 'https://via.placeholder.com/250x150', category: 'corte-laser' },
+            { id: 4, name: 'Corte Láser en Madera', description: 'Figuras personalizadas en MDF.', price: 18, image: 'https://via.placeholder.com/250x150', category: 'corte-laser' },
+        ];
+
+        let cart = [];
+        let currentCategory = 'estampados';
+        const catalog = document.getElementById('catalog');
+        const cartItems = document.getElementById('cart-items');
+        const subtotalEl = document.getElementById('subtotal');
+        const shippingEl = document.getElementById('shipping');
+        const totalEl = document.getElementById('total');
+
+        function showCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadCatalog();
+        }
+
+        function loadCatalog() {
+            catalog.innerHTML = '';
+            const filteredProducts = products.filter(p => p.category === currentCategory);
+            filteredProducts.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p class="price">$${product.price}</p>
+                    <button onclick="addToCart(${product.id})"><i class="fas fa-cart-plus"></i> Añadir</button>
+                `;
+                catalog.appendChild(productDiv);
+            });
+        }
+
+        loadCatalog();
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateCart();
+        }
+
+        function updateCart() {
+            cartItems.innerHTML = '';
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price;
+                cartItems.innerHTML += `<p>${item.name} - $${item.price}</p>`;
+            });
+            const shipping = subtotal > 0 ? 5 : 0;
+            subtotalEl.textContent = subtotal;
+            shippingEl.textContent = shipping;
+            totalEl.textContent = subtotal + shipping;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('open');
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Compra realizada! (Integra con pasarela de pago)');
+        });
+    </script>
+</body>
+</html>
